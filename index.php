@@ -2,7 +2,7 @@
 
 require 'setup.php';
 
-define('PRODUCT_COUNT', 1000000);
+define('PRODUCT_COUNT', 10000000);
 
 
 header('Content-type: text/html; charset=utf-8');
@@ -16,7 +16,7 @@ try {
 			$db->exec('CREATE INDEX product_date ON product(production_date DESC);');
 		}
 		$newProducts = PRODUCT_COUNT - $productCount;
-		echo '<p>Generating <strong>' . $newProducts . '</strong> new products. This takes some time... (will print a dot for every hundred)</p>';
+		echo '<p>Generating <strong>' . $newProducts . '</strong> new products. This takes &quot;some&quot; time... (will print a dot for every hundred)</p>';
 		ob_flush(); flush();
 
 		$productNames = array('Rubber duck', 'Washing machine', 'Oven', 'Light bulb', 'Regular car', 'Tractor',
