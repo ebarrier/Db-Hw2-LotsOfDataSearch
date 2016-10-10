@@ -2,7 +2,7 @@
 
 require 'setup.php';
 
-define('PRODUCT_COUNT', 7000000);
+define('PRODUCT_COUNT', 5000000);
 
 
 header('Content-type: text/html; charset=utf-8');
@@ -53,6 +53,56 @@ catch (Exception $e) {
 <html>
 <head>
 	<title>The search box</title>
-
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 </head>
+<body>
+	<div class="container-fluid" style="padding-top: 20px;">
+		<div class="col-md-8 col-md-offset-2">
+			<div class="panel panel-primary">
+				<div class="panel-heading"><h2>The search box</h2></div>
+				<div class="panel-body">
+					<div class="form-group">
+						<div class="input-group">
+							<div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+							<input class="form-control" autocomplete="off" placeholder="Filter products by name or serial number" type="text" id="search" />
+						</div>
+					</div>
+					<div><span class="glyphicon glyphicon-time"></span> <span id="query-time"></span></div>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Produced</th>
+								<th>Serial</th>
+								<th>Name</th>
+							</tr>
+						</thead>
+						<tbody id="search-results"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+$(function() { // DOM ready
+	$('#search').keyup(function(e) {
+		$('#query-time').text('Loading data...');
+		$.get('search.php?q=' + $('#search').val(), function(data) {
+			$('#query-time').text('SQL query took ' + data.query_time + ' seconds');
+			var table = $('#search-results').empty();
+			for (var i = 0, l = data.products.length; i < l; i++) {
+				var product = data.products[i];
+				var row = $('<tr>');
+				row.append($('<td>').text(product.id));
+				row.append($('<td>').text(product.production_date));
+				row.append($('<td>').text(product.serial_number));
+				row.append($('<td>').text(product.name));
+				table.append(row);
+			}
+		});
+	});
+});
+</script>
 </html>
