@@ -2,7 +2,7 @@
 
 require 'setup.php';
 
-define('PRODUCT_COUNT', 10000000);
+define('PRODUCT_COUNT', 7000000);
 
 
 header('Content-type: text/html; charset=utf-8');
@@ -14,6 +14,8 @@ try {
 	if ($productCount < PRODUCT_COUNT) {
 		if (0 == $productCount) {
 			$db->exec('CREATE INDEX product_date ON product(production_date DESC);');
+			$db->exec('CREATE INDEX product_name ON product(name);');
+			$db->exec('CREATE INDEX product_serial ON product(serial_number);');
 		}
 		$newProducts = PRODUCT_COUNT - $productCount;
 		echo '<p>Generating <strong>' . $newProducts . '</strong> new products. This takes &quot;some&quot; time... (will print a dot for every hundred)</p>';
