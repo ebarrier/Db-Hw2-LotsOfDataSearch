@@ -15,17 +15,16 @@ $stmt0->bindValue(':searchParam1', $searchParam, PDO::PARAM_STR);
 $stmt0->bindValue(':searchParam2', $searchParam, PDO::PARAM_STR);
 $stmt0->execute();
 $result0 = $stmt0->fetchColumn();
-var_dump($result0);
+//var_dump($result0);
 $moment2=microtime(true);
 $intermediarytime=$moment2 - $moment;
-print "Time to count: ". $intermediarytime . PHP_EOL;
+//print "Time to count: ". $intermediarytime . PHP_EOL;
 
 if($result0 > 0) {
     for($j=2016; $j > 1969; $j--) {
         for($i=12; $i > 0; $i--) {
             $datesearchmin = $j . "-" . $i . "-00";
-            //Make the search between two dates otherwise we always get the same result
-            $stmt1 = $db->prepare('SELECT * FROM product WHERE (serial_number LIKE :searchParam1 OR name LIKE :searchParam2) AND (production_date BETWEEN :datemin AND :datemax) LIMIT :limit');
+            $stmt1 = $db->prepare('SELECT * FROM product WHERE (serial_number LIKE :searchParam1 OR name LIKE :searchParam2) AND (production_date BETWEEN :datemin AND :datemax) ORDER BY production_date LIMIT :limit');
             $stmt1->bindValue(':searchParam1', $searchParam, PDO::PARAM_STR);
             $stmt1->bindValue(':searchParam2', $searchParam, PDO::PARAM_STR);
             $stmt1->bindValue(':datemin', $datesearchmin, PDO::PARAM_STR);
@@ -40,7 +39,7 @@ if($result0 > 0) {
             if ($countsearch == 0) {
                 continue;
             }
-                $stmt2 = $db->prepare('SELECT * FROM product WHERE (serial_number LIKE :searchParam1 OR name LIKE :searchParam2) AND (production_date BETWEEN :datemin AND :datemax) LIMIT :limit');
+                $stmt2 = $db->prepare('SELECT * FROM product WHERE (serial_number LIKE :searchParam1 OR name LIKE :searchParam2) AND (production_date BETWEEN :datemin AND :datemax) ORDER BY production_date LIMIT :limit');
                 $stmt2->bindValue(':searchParam1', $searchParam, PDO::PARAM_STR);
                 $stmt2->bindValue(':searchParam2', $searchParam, PDO::PARAM_STR);
                 $stmt2->bindValue(':datemin', $datesearchmin, PDO::PARAM_STR);

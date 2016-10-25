@@ -101,7 +101,7 @@ $(function() { // DOM ready
         clearTimeout(searchTimeout);
 		searchTimeout = setTimeout(function() {
             $('#query-time').text('Loading data...');
-            $.get('search.php?q=' + $('#search').val(), function(data) {
+            $.get('search2.php?q=' + $('#search').val(), function(data) {
                 $('#query-time').text('SQL query took ' + data.query_time + ' seconds');
                 var table = $('#search-results').empty();
                 for (var i = 0, l = data.products.length; i < l; i++) {
@@ -114,9 +114,7 @@ $(function() { // DOM ready
                     table.append(row);
                 }
             });
-            
-        }, 2000);
-            
+        }, 500);
     });
 });
 
